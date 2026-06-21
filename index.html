@@ -6,14 +6,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
 
 <style>
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     font-family: 'Outfit', sans-serif;
-    margin: 0;
-    padding: 0;
+    margin: 0; padding: 0;
     background-color: #0b0c10;
     background-image: 
         radial-gradient(at 0% 0%, rgba(99, 56, 240, 0.15) 0px, transparent 50%),
@@ -23,332 +20,280 @@ body {
     min-height: 100vh;
 }
 
-/* Custom Dark Scrollbar */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: #0b0c10; }
 ::-webkit-scrollbar-thumb { background: #1f2335; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #292e49; }
 
-.container {
-    max-width: 980px;
-    margin: auto;
-    padding: 30px 20px;
-}
+.container { max-width: 980px; margin: auto; padding: 30px 20px; }
 
 h1 {
-    font-weight: 900;
-    font-size: 2.8rem;
-    text-transform: uppercase;
+    font-weight: 900; font-size: 2.8rem; text-transform: uppercase;
     letter-spacing: 1.5px;
     background: linear-gradient(135deg, #00d4ff, #6c5ce7, #ff6b81);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-align: center;
-    margin: 0 0 35px 0;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    text-align: center; margin: 0 0 35px 0;
     filter: drop-shadow(0 4px 16px rgba(0,212,255,0.15));
 }
 
-/* Glassmorphic Panels */
 .panel {
     background: rgba(20, 22, 37, 0.55);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 0.07);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-    border-radius: 20px;
-    padding: 22px;
-    margin-bottom: 20px;
-    transition: border-color 0.3s ease, transform 0.3s ease;
+    border-radius: 20px; padding: 22px; margin-bottom: 20px;
+    transition: border-color 0.3s ease;
 }
-
-.panel:hover {
-    border-color: rgba(255, 255, 255, 0.12);
-}
+.panel:hover { border-color: rgba(255, 255, 255, 0.12); }
 
 .panel h3 {
-    margin: 0 0 16px 0;
-    font-size: 1.3rem;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    margin: 0 0 16px 0; font-size: 1.3rem; color: #fff;
+    display: flex; align-items: center; gap: 10px;
 }
-
 .panel h3::before {
-    content: '';
-    display: inline-block;
-    width: 8px;
-    height: 20px;
-    background: #00d4ff;
-    border-radius: 4px;
-    box-shadow: 0 0 10px #00d4ff;
+    content: ''; display: inline-block; width: 8px; height: 20px;
+    background: #00d4ff; border-radius: 4px; box-shadow: 0 0 10px #00d4ff;
 }
 
-.profile-grid {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-}
-
+.profile-grid { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
 .profile-card {
-    flex: 1;
-    min-width: 130px;
-    padding: 14px;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 14px;
-    cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
+    flex: 1; min-width: 130px; padding: 14px; text-align: center;
+    background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px; cursor: pointer; transition: all 0.25s ease;
+    position: relative; overflow: hidden;
 }
-
-.profile-card:hover {
-    background: rgba(255, 255, 255, 0.07);
-    transform: translateY(-2px);
-}
-
+.profile-card:hover { background: rgba(255, 255, 255, 0.07); transform: translateY(-2px); }
 .profile-card.active {
     background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(108, 92, 231, 0.15));
-    border-color: #00d4ff;
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+    border-color: #00d4ff; box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
 }
-
 .profile-card.active::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; height: 3px;
-    background: #00d4ff;
-    box-shadow: 0 0 10px #00d4ff;
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: #00d4ff; box-shadow: 0 0 10px #00d4ff;
 }
-
 .profile-card b { font-size: 1.15rem; color: #fff; font-weight: 700; }
 .profile-card small { display: block; margin-top: 4px; color: #00d4ff; font-weight: 600; font-size: 0.85rem;}
 
-.button-group {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.button-group:last-child {
-    margin-bottom: 0;
-}
+.button-group { display: flex; gap: 10px; margin-bottom: 10px; }
+.button-group:last-child { margin-bottom: 0; }
 
 button {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 700;
+    font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.95rem;
     background: linear-gradient(135deg, #6338f0 0%, #4318d0 100%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 0.95rem;
-    box-shadow: 0 4px 12px rgba(99, 56, 240, 0.25);
-    display: flex;    
-    gap: 12px;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
+    border: 1px solid rgba(255, 255, 255, 0.15); color: white;
+    padding: 10px 20px; border-radius: 12px; cursor: pointer;
+    transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(99, 56, 240, 0.25);
+    display: flex; gap: 12px; align-items: center; justify-content: center; flex: 1;
 }
-
-button:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(135deg, #7348ff 0%, #5328e0 100%);
-    box-shadow: 0 6px 18px rgba(99, 56, 240, 0.4);
-}
-
+button:hover { transform: translateY(-2px); background: linear-gradient(135deg, #7348ff 0%, #5328e0 100%); }
 button:active { transform: translateY(0); }
 
-button.danger {
-    background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
-}
-
-button.danger:hover {
-    background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
-    box-shadow: 0 6px 18px rgba(239, 68, 68, 0.35);
-}
-
-/* Import/Export Neon Buttons */
-button.import-btn { background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
-button.import-btn:hover { background: linear-gradient(135deg, #34d399 0%, #059669 100%); box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35); }
-
-button.export-btn { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2); }
-button.export-btn:hover { background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%); box-shadow: 0 6px 18px rgba(59, 130, 246, 0.35); }
+button.danger { background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%); }
+button.danger:hover { background: linear-gradient(135deg, #f87171 0%, #dc2626 100%); }
+button.import-btn { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+button.import-btn:hover { background: linear-gradient(135deg, #34d399 0%, #059669 100%); }
+button.export-btn { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); }
+button.export-btn:hover { background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%); }
 
 #searchInput {
-    font-family: 'Outfit', sans-serif;
-    width: 100%;
-    padding: 15px 20px;
-    border-radius: 14px;
-    background: rgba(0, 0, 0, 0.4);
-    color: white;
-    font-size: 1.05rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    outline: none;
-    transition: all 0.3s ease;
-    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
+    font-family: 'Outfit', sans-serif; width: 100%; padding: 15px 20px;
+    border-radius: 14px; background: rgba(0, 0, 0, 0.4); color: white;
+    font-size: 1.05rem; border: 1px solid rgba(255, 255, 255, 0.1); outline: none;
+    transition: all 0.3s ease; box-shadow: inset 0 2px 6px rgba(0,0,0,0.4);
 }
+#searchInput:focus { border-color: #00d4ff; box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 0 15px rgba(0, 212, 255, 0.25); }
 
-#searchInput:focus {
-    border-color: #00d4ff;
-    box-shadow: inset 0 2px 6px rgba(0,0,0,0.4), 0 0 15px rgba(0, 212, 255, 0.25);
-}
-
-#searchInput::placeholder { color: #6b7280; font-weight: 400; }
-
-/* Animated Gaming XP Bar */
 .progress-container {
-    width: 100%;
-    height: 30px;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 15px;
-    padding: 4px;
-    margin-bottom: 25px;
-    box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
+    width: 100%; height: 30px; background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 15px;
+    padding: 4px; margin-bottom: 25px; box-shadow: inset 0 2px 8px rgba(0,0,0,0.8);
 }
-
 .progress-bar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #00d4ff, #00ff87);
-    border-radius: 11px;
-    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 14px rgba(0, 255, 135, 0.4);
-    position: relative;
+    height: 100%; width: 0%; background: linear-gradient(90deg, #00d4ff, #00ff87);
+    border-radius: 11px; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 14px rgba(0, 255, 135, 0.4); position: relative; overflow: hidden;
+}
+.progress-bar::after {
+    content: ""; position: absolute; top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(-45deg, rgba(255,255,255,0.2) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.2) 75%, transparent 75%, transparent);
+    background-size: 28px 28px; animation: moveStripes 1.5s linear infinite;
+}
+@keyframes moveStripes { 0% { background-position: 0 0; } 100% { background-position: 28px 0; } }
+
+#spriteList { display: flex; flex-direction: column; gap: 14px; }
+
+/* ======== ACCORDION & POLAROID CARD UI ======== */
+
+.sprite-drawer-container {
+    background: rgba(255, 255, 255, 0.015);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    transition: all 0.2s ease;
     overflow: hidden;
 }
 
-.progress-bar::after {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
-    background: linear-gradient(
-        -45deg, 
-        rgba(255,255,255,0.2) 25%, 
-        transparent 25%, 
-        transparent 50%, 
-        rgba(255,255,255,0.2) 50%, 
-        rgba(255,255,255,0.2) 75%, 
-        transparent 75%, 
-        transparent
-    );
-    background-size: 28px 28px;
-    animation: moveStripes 1.5s linear infinite;
+.sprite-drawer-container:hover {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
 }
 
-@keyframes moveStripes {
-    0% { background-position: 0 0; }
-    100% { background-position: 28px 0; }
-}
-
-#spriteList {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.sprite-item {
+.sprite-drawer-header {
     display: flex;
     align-items: center;
-    padding: 12px 18px;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.035);
-    border-radius: 14px;
-    margin-bottom: 10px;
-    transition: background 0.2s;
-}
-
-.sprite-item:hover {
-    background: rgba(255, 255, 255, 0.045);
-}
-
-.sprite-item b {
-    flex: 1; 
-    font-size: 1.1rem;
-    color: #f8fafc;
-    font-weight: 600;
-}
-
-.variants-container {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.variant-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 6px 14px;
-    border-radius: 20px;
+    justify-content: space-between;
+    padding: 14px 20px;
     cursor: pointer;
     user-select: none;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 0.8rem;
+}
+
+.sprite-drawer-header b {
+    font-size: 1.15rem;
+    color: #f8fafc;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #64748b;
 }
 
-.variant-pill:hover {
-    border-color: rgba(0, 212, 255, 0.4);
-    background: rgba(0, 212, 255, 0.05);
-    color: #cbd5e1;
+.drawer-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-.variant-pill input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 14px;
-    height: 14px;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.1);
-    margin: 0;
+.style-counter-pill {
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+}
+
+.style-counter-pill.completed {
+    background: rgba(0, 255, 135, 0.1);
+    border-color: #00ff87;
+    color: #00ff87;
+}
+
+.drawer-toggle-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem; font-weight: 900;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.sprite-drawer-header:hover .drawer-toggle-btn {
+    background: #00d4ff;
+    color: #000;
+    border-color: #00d4ff;
+    box-shadow: 0 0 10px rgba(0,212,255,0.4);
+}
+
+.style-tray {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 16px 20px;
+    background: rgba(0, 0, 0, 0.4);
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* The visual Polaroid style Card */
+.style-card {
+    width: 105px;
+    background: #141622;
+    border: 2px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    overflow: hidden;
     cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    user-select: none;
+}
+
+.style-card:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
+}
+
+.style-card.locked {
+    opacity: 0.45;
+    filter: grayscale(100%) brightness(0.7);
+}
+
+.style-card.unlocked {
+    opacity: 1;
+    filter: grayscale(0%) brightness(1);
+    border-color: #00d4ff;
+    box-shadow: 0 6px 16px rgba(0, 212, 255, 0.25);
+}
+
+.card-img-box {
+    width: 100%;
+    height: 90px;
+    background: #090a10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
     position: relative;
 }
 
-.variant-pill:has(input[type="checkbox"]:checked) {
-    background: rgba(0, 212, 255, 0.15);
-    border-color: #00d4ff;
-    color: #00d4ff;
-    box-shadow: 0 0 12px rgba(0, 212, 255, 0.25);
+.card-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.variant-pill input[type="checkbox"]:checked {
-    background: #00d4ff;
-}
-
-.variant-pill input[type="checkbox"]:checked::after {
-    content: '✓';
+/* Small visual Checkmark badge in the top-right of unlocked cards */
+.unlocked-badge {
     position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
+    top: 6px; right: 6px;
+    width: 20px; height: 20px;
+    background: #00d4ff;
     color: #000;
-    font-size: 10px;
-    font-weight: 900;
+    border-radius: 50%;
+    display: none;
+    align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 900;
+    box-shadow: 0 0 8px #00d4ff;
+}
+.style-card.unlocked .unlocked-badge { display: flex; }
+
+.card-label {
+    padding: 7px 4px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #94a3b8;
+    background: rgba(0,0,0,0.6);
+    border-top: 1px solid rgba(255,255,255,0.04);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
-.empty-category-notice {
-    padding: 16px;
-    text-align: center;
-    color: #475569;
-    font-style: italic;
-    font-size: 0.95rem;
-    background: rgba(0,0,0,0.2);
-    border-radius: 12px;
-    border: 1px dashed rgba(255,255,255,0.05);
+.style-card.unlocked .card-label {
+    background: rgba(0, 212, 255, 0.15);
+    color: #00d4ff;
 }
+
+/* The "+ Add Style" button rendered as a ghost card */
+.style-card.add-new-card {
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.01);
+    justify-content: center; align-items: center;
+    opacity: 0.6;
+}
+.style-card.add-new-card:hover { opacity: 1; border-color: #00d4ff; background: rgba(0, 212, 255, 0.05); }
+.style-card.add-new-card .card-img-box { background: transparent; font-size: 2rem; color: #64748b; }
+
+.empty-category-notice { padding: 16px; text-align: center; color: #475569; font-style: italic; font-size: 0.95rem; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.05); }
 </style>
 </head>
 
@@ -386,6 +331,121 @@ button.export-btn:hover { background: linear-gradient(135deg, #60a5fa 0%, #2563e
 </div>
 
 <script>
+/* ================= MASTER IMAGE DICTIONARY ================= */
+// Paste your Discord, Imgur, or Wiki direct image links (.png/.jpg) inside the quotes below!
+
+const SPRITE_ART = {
+    "Water": {
+        "Water": {
+            "normal": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Water_Unvault_Ch7S3_ui_L.webp",
+            "gold": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Water_Gold_ui_L.webp",
+            "gummy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Water_Candy_ui_L.webp",
+            "candy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Water_Candy_ui_L.webp",
+            "galaxy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Water_Galaxy_ui_L.webp"
+        }
+    },
+    "Earth": {
+        "Earth": {
+            "normal": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Earth_Ch7S3_UI_L.webp",
+            "gold": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Earth_Gold_ui_L.webp",
+            "gummy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Earth_Candy_ui_L.webp",
+            "candy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Earth_Candy_ui_L.webp",
+            "galaxy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Earth_Galaxy_ui_L.webp"
+        }
+    },
+    "Fire": {
+        "Fire": {
+            "normal": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fire_Unvault_Ch7S3_ui_L.webp",
+            "gold": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fire_Gold_ui_L.webp",
+            "gummy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fire_Candy_ui_L.webp",
+            "candy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fire_Candy_ui_L.webp",
+            "galaxy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Fire_Galaxy_ui_L.webp"
+        }
+    },
+    "Duck": {
+        "Duck": {
+            "normal": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Duck_Default_L.webp",
+            "gold": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Duck_Gold_L.webp",
+            "gummy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Duck_Candy_L.webp",
+            "candy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Duck_Candy_L.webp",
+            "galaxy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Duck_Galaxy_L.webp"
+        }
+    },
+    "Ghost": {
+        "Ghost": {
+            "normal": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Ghost_Unvault_L.webp",
+            "gold": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Ghost_Gold_L.webp",
+            "gummy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Ghost_Candy_L.webp",
+            "candy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Ghost_Candy_L.webp",
+            "galaxy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Ghost_Galaxy_L.webp"
+        }
+    },
+    "Dream": {
+        "Dream": {
+            "normal": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Sleepy_ui_L.webp",
+            "gold": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Sleepy_Gold_ui_L.webp",
+            "gummy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Sleepy_Candy_ui_L.webp",
+            "candy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Sleepy_Candy_ui_L.webp",
+            "galaxy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Sleepy_Galaxy_ui_L.webp"
+        }
+    },
+    "Punk": {
+        "Punk": {
+            "normal": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Punk_ui_L.webp",
+            "gold": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Punk_Gold_ui_L.webp",
+            "gummy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Punk_Candy_ui_L.webp",
+            "candy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Punk_Candy_ui_L.webp",
+            "galaxy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_Punk_Galaxy_ui_L.webp"
+        }
+    },
+    "King": {
+        "King": {
+            "normal": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_King_ui_L.webp",
+            "gold": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_King_Gold_ui_L.webp",
+            "gummy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_King_Candy_ui_L.webp",
+            "candy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_King_Candy_ui_L.webp",
+            "galaxy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_King_Galaxy_ui_L.webp"
+        }
+    },
+    "Zero Point": {
+        "Zero Point": {
+            "normal": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ZeroPoint_ui_L.webp",
+            "gold": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ZeroPoint_Gold_ui_L.webp",
+            "gummy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ZeroPoint_Candy_ui_L.webp",
+            "candy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ZeroPoint_Candy_ui_L.webp",
+            "galaxy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_ZeroPoint_Galaxy_ui_L.webp"
+        }
+    },
+    "Demon": {
+        "Demon": {
+            "normal": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_RedDemon_Default_L.webp",
+            "gold": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_RedDemon_Gold_L.webp",
+            "gummy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_RedDemon_Candy_L.webp",
+            "candy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_RedDemon_Candy_L.webp",
+            "galaxy": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_RedDemon_Galaxy_L.webp"
+        }
+    },
+    "Others": {
+        "Burnt Peanut": {
+            "normal": "https://fortnite.gg/img/x/sprites/icons/T_Icon_BR_Creature_Sprite_BurntPeanut_ui_L.webp"
+        }
+    }
+};
+
+/* SMART LOOKUP HELPER */
+function resolveSpriteImage(cat, sprite, variant) {
+    // 1. If you manually pasted a real link above, use it!
+    const customUrl = SPRITE_ART?.[cat]?.[sprite]?.[variant?.toLowerCase()];
+    if (customUrl && customUrl.trim() !== "") {
+        return customUrl;
+    }
+
+    // 2. If left blank, generate a dynamic, gorgeous dark-mode fallback image!
+    const cleanText = encodeURIComponent(variant);
+    return `https://placehold.co/140x140/0d0e15/00d4ff?text=${cleanText}&font=Montserrat`;
+}
+
+
 /* ================= SYSTEM CONFIG ================= */
 
 const CONFIG_CATEGORIES = [
@@ -409,6 +469,7 @@ const DEFAULT_CATALOG = {
 
 let data = null;
 let activeProfile = null;
+let openDrawers = {}; // ACCORDION MEMORY CACHE
 
 document.addEventListener("DOMContentLoaded", () => {
     data = loadData();
@@ -418,12 +479,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function normalizeData(rawInput) {
     let parsed;
-    try {
-        parsed = typeof rawInput === "string" ? JSON.parse(rawInput) : (rawInput || {});
-        if (typeof parsed !== "object" || parsed === null) parsed = {};
-    } catch {
-        parsed = {};
-    }
+    try { parsed = typeof rawInput === "string" ? JSON.parse(rawInput) : (rawInput || {}); } 
+    catch { parsed = {}; }
+    if (typeof parsed !== "object" || parsed === null) parsed = {};
 
     const normSprites = {};
     const sourceSprites = parsed.sprites || {};
@@ -436,9 +494,7 @@ function normalizeData(rawInput) {
 
         combinedUniqueNames.forEach(spriteName => {
             let varList = sourceSprites?.[cat]?.[spriteName];
-            if (!Array.isArray(varList)) {
-                varList = DEFAULT_CATALOG[cat]?.[spriteName] || ["normal", "gold", "gummy", "galaxy"];
-            }
+            if (!Array.isArray(varList)) varList = DEFAULT_CATALOG[cat]?.[spriteName] || ["normal", "gold", "gummy", "galaxy"];
             normSprites[cat][spriteName] = [...new Set(varList)]; 
         });
     });
@@ -476,15 +532,10 @@ function loadData() {
     return bulletproofData;
 }
 
-function saveData() {
-    if (!data) return;
-    localStorage.setItem("spriteTracker_v3", JSON.stringify(data));
-}
+function saveData() { if (data) localStorage.setItem("spriteTracker_v3", JSON.stringify(data)); }
 
 function getActiveProfile() {
-    if (!data || !data.profiles[activeProfile]) {
-        activeProfile = Object.keys(data?.profiles || {})[0] || "Trystan";
-    }
+    if (!data || !data.profiles[activeProfile]) activeProfile = Object.keys(data?.profiles || {})[0] || "Trystan";
     return activeProfile;
 }
 
@@ -497,15 +548,12 @@ function render() {
 
 function updateProgress() {
     const profile = getActiveProfile();
-    let total = 0;
-    let done = 0;
+    let total = 0; let done = 0;
 
     CONFIG_CATEGORIES.forEach(cat => {
         Object.keys(data.sprites[cat]).forEach(sprite => {
             const profileSpriteObj = data.profiles[profile][cat][sprite];
-            const validVars = data.sprites[cat][sprite];
-
-            validVars.forEach(v => {
+            data.sprites[cat][sprite].forEach(v => {
                 total++;
                 if (profileSpriteObj[v]) done++;
             });
@@ -518,21 +566,14 @@ function updateProgress() {
 
 function renderProfiles() {
     const grid = document.getElementById("profileGrid");
-    grid.innerHTML = "";
-    const active = getActiveProfile();
+    grid.innerHTML = ""; const active = getActiveProfile();
 
     Object.keys(data.profiles).forEach(name => {
-        let total = 0;
-        let done = 0;
-
+        let total = 0; let done = 0;
         CONFIG_CATEGORIES.forEach(cat => {
             Object.keys(data.sprites[cat]).forEach(sprite => {
                 const pObj = data.profiles[name][cat][sprite];
-                const validVars = data.sprites[cat][sprite];
-                validVars.forEach(v => {
-                    total++;
-                    if (pObj[v]) done++;
-                });
+                data.sprites[cat][sprite].forEach(v => { total++; if (pObj[v]) done++; });
             });
         });
 
@@ -541,87 +582,102 @@ function renderProfiles() {
         if (name === active) card.classList.add("active");
 
         card.innerHTML = `<b>${name}</b><br><small>${done} / ${total}</small>`;
-        card.onclick = () => {
-            activeProfile = name;
-            render();
-        };
-
+        card.onclick = () => { activeProfile = name; render(); };
         grid.appendChild(card);
     });
 }
 
 function renderSprites() {
-    const list = document.getElementById("spriteList");
-    list.innerHTML = "";
-
+    const list = document.getElementById("spriteList"); list.innerHTML = "";
     const profile = getActiveProfile();
     const query = document.getElementById("searchInput").value.toLowerCase().trim();
     const isSearching = query.length > 0;
 
     CONFIG_CATEGORIES.forEach(cat => {
-        const matchingSprites = Object.keys(data.sprites[cat])
-            .filter(name => name.toLowerCase().includes(query));
-
+        const matchingSprites = Object.keys(data.sprites[cat]).filter(name => name.toLowerCase().includes(query));
         if (isSearching && matchingSprites.length === 0) return;
 
-        const wrapper = document.createElement("div");
-        wrapper.className = "panel";
-
-        const title = document.createElement("h3");
-        title.textContent = cat;
-        wrapper.appendChild(title);
+        const wrapper = document.createElement("div"); wrapper.className = "panel";
+        const title = document.createElement("h3"); title.textContent = cat; wrapper.appendChild(title);
 
         if (matchingSprites.length === 0) {
-            const emptyNotice = document.createElement("div");
-            emptyNotice.className = "empty-category-notice";
-            emptyNotice.textContent = "No sprites unlocked in this sector yet.";
-            wrapper.appendChild(emptyNotice);
+            const emptyNotice = document.createElement("div"); emptyNotice.className = "empty-category-notice";
+            emptyNotice.textContent = "No sprites unlocked in this sector yet."; wrapper.appendChild(emptyNotice);
         } else {
             matchingSprites.forEach(sprite => {
-                const row = document.createElement("div");
-                row.className = "sprite-item";
+                const cacheKey = `${cat}_${sprite}`;
+                // Auto-open drawer if searching, otherwise respect user's memory cache
+                const isOpen = isSearching ? true : !!openDrawers[cacheKey];
 
-                const label = document.createElement("b");
-                label.textContent = sprite;
-                row.appendChild(label);
-
-                const varContainer = document.createElement("div");
-                varContainer.className = "variants-container";
+                const drawerBox = document.createElement("div");
+                drawerBox.className = "sprite-drawer-container";
+                drawerBox.style.marginBottom = "10px";
 
                 const validVariants = data.sprites[cat][sprite];
-                
-                validVariants.forEach(v => {
-                    const pill = document.createElement("label");
-                    pill.className = "variant-pill";
+                let unlockedCount = validVariants.filter(v => data.profiles[profile][cat][sprite][v]).length;
+                const isFullyComplete = unlockedCount === validVariants.length;
 
-                    const cb = document.createElement("input");
-                    cb.type = "checkbox";
-                    cb.checked = data.profiles[profile][cat][sprite][v];
+                // DRAWER HEADER
+                const header = document.createElement("div");
+                header.className = "sprite-drawer-header";
+                header.innerHTML = `
+                    <b>${sprite}</b>
+                    <div class="drawer-controls">
+                        <span class="style-counter-pill ${isFullyComplete ? 'completed' : ''}">${unlockedCount} / ${validVariants.length}</span>
+                        <div class="drawer-toggle-btn" style="transform: rotate(${isOpen ? '180deg' : '0deg'})">▼</div>
+                    </div>
+                `;
 
-                    cb.onchange = () => {
-                        data.profiles[profile][cat][sprite][v] = cb.checked;
-                        saveData();
-                        render();
+                header.onclick = () => {
+                    openDrawers[cacheKey] = !openDrawers[cacheKey];
+                    render();
+                };
+
+                drawerBox.appendChild(header);
+
+                // EXPANDABLE TRAY OF POLAROID CARDS
+                if (isOpen) {
+                    const tray = document.createElement("div");
+                    tray.className = "style-tray";
+
+                    validVariants.forEach(v => {
+                        const isChecked = data.profiles[profile][cat][sprite][v];
+                        const imgUrl = resolveSpriteImage(cat, sprite, v);
+
+                        const card = document.createElement("div");
+                        card.className = `style-card ${isChecked ? 'unlocked' : 'locked'}`;
+                        card.innerHTML = `
+                            <div class="card-img-box">
+                                <img src="${imgUrl}" alt="${v}" onerror="this.src='https://placehold.co/140x140/141622/475569?text=?';">
+                                <div class="unlocked-badge">✓</div>
+                            </div>
+                            <div class="card-label" title="${v}">${v}</div>
+                        `;
+
+                        card.onclick = (e) => {
+                            e.stopPropagation(); // prevent closing the accordion when clicking a card
+                            data.profiles[profile][cat][sprite][v] = !isChecked;
+                            saveData();
+                            render();
+                        };
+
+                        tray.appendChild(card);
+                    });
+
+                    // "+ ADD STYLE" GHOST CARD
+                    const addCard = document.createElement("div");
+                    addCard.className = "style-card add-new-card";
+                    addCard.innerHTML = `<div class="card-img-box">+</div><div class="card-label">Add Style</div>`;
+                    addCard.onclick = (e) => {
+                        e.stopPropagation();
+                        addVariantToSpecificSprite(cat, sprite);
                     };
 
-                    const span = document.createElement("span");
-                    span.textContent = v;
+                    tray.appendChild(addCard);
+                    drawerBox.appendChild(tray);
+                }
 
-                    pill.appendChild(cb);
-                    pill.appendChild(span);
-                    varContainer.appendChild(pill);
-                });
-
-                const addStylePill = document.createElement("div");
-                addStylePill.className = "variant-pill";
-                addStylePill.style.cssText = "border-style: dashed; opacity: 0.6; padding: 6px 10px;";
-                addStylePill.innerHTML = "+";
-                addStylePill.title = `Attach a new variant style to ${sprite}`;
-                addStylePill.onclick = () => addVariantToSpecificSprite(cat, sprite);
-
-                varContainer.appendChild(addStylePill);
-                row.appendChild(varContainer);
-                wrapper.appendChild(row);
+                wrapper.appendChild(drawerBox);
             });
         }
 
@@ -635,218 +691,110 @@ function addVariantToSpecificSprite(cat, spriteName) {
     const cleanStyle = newStyle.trim().toLowerCase();
 
     const existing = data.sprites[cat][spriteName].map(s => s.toLowerCase());
-    if (existing.includes(cleanStyle)) {
-        alert(`"${spriteName}" already has this variant registered.`);
-        return;
-    }
+    if (existing.includes(cleanStyle)) { alert(`"${spriteName}" already has this variant registered.`); return; }
 
     data.sprites[cat][spriteName].push(newStyle.trim());
-    data = normalizeData(data);
-    saveData();
-    render();
+    data = normalizeData(data); saveData(); render();
 }
 
 function addSprite() {
-    const name = prompt("Enter Sprite Name:");
-    if (!name || !name.trim()) return;
-    const cleanName = name.trim();
-
+    const name = prompt("Enter Sprite Name:"); if (!name || !name.trim()) return; const cleanName = name.trim();
     const category = prompt("Assign to Category:\n" + CONFIG_CATEGORIES.join(", "));
-    if (!category || !CONFIG_CATEGORIES.includes(category.trim())) {
-        alert("Action canceled: Invalid category name.");
-        return;
-    }
+    if (!category || !CONFIG_CATEGORIES.includes(category.trim())) { alert("Invalid category name."); return; }
     const cleanCat = category.trim();
 
-    const variantInput = prompt(
-        "Enter variants separated by commas:\n(Leave blank to default to: normal, gold, gummy, galaxy)", 
-        "normal, gold, gummy, galaxy"
-    );
-
-    let parsedVariants = variantInput 
-        ? variantInput.split(",").map(s => s.trim()).filter(Boolean) 
-        : ["normal", "gold", "gummy", "galaxy"];
-
+    const variantInput = prompt("Enter variants separated by commas:\n(Leave blank to default to: normal, gold, gummy, galaxy)", "normal, gold, gummy, galaxy");
+    let parsedVariants = variantInput ? variantInput.split(",").map(s => s.trim()).filter(Boolean) : ["normal", "gold", "gummy", "galaxy"];
     if (parsedVariants.length === 0) parsedVariants = ["normal"];
 
     data.sprites[cleanCat][cleanName] = parsedVariants; 
-    data = normalizeData(data);
-    saveData();
-    render();
+    data = normalizeData(data); saveData(); render();
 }
 
 function deleteSprite() {
-    const name = prompt("Enter Sprite Name to delete:");
-    if (!name || !name.trim()) return;
+    const name = prompt("Enter Sprite Name to delete:"); if (!name || !name.trim()) return;
     const target = name.trim().toLowerCase();
-
     CONFIG_CATEGORIES.forEach(cat => {
-        Object.keys(data.sprites[cat]).forEach(spriteName => {
-            if (spriteName.toLowerCase() === target) {
-                delete data.sprites[cat][spriteName];
-            }
-        });
+        Object.keys(data.sprites[cat]).forEach(spriteName => { if (spriteName.toLowerCase() === target) delete data.sprites[cat][spriteName]; });
     });
-
-    data = normalizeData(data); 
-    saveData();
-    render();
+    data = normalizeData(data); saveData(); render();
 }
 
 function createProfile() {
-    const name = prompt("Enter new Profile Name:");
-    if (!name || !name.trim()) return;
-    const cleanName = name.trim();
-
-    if (data.profiles[cleanName]) {
-        alert("A profile with this name already exists.");
-        return;
-    }
-
-    data.profiles[cleanName] = {};
-    activeProfile = cleanName;
-
-    data = normalizeData(data); 
-    saveData();
-    render();
+    const name = prompt("Enter new Profile Name:"); if (!name || !name.trim()) return; const cleanName = name.trim();
+    if (data.profiles[cleanName]) { alert("A profile with this name already exists."); return; }
+    data.profiles[cleanName] = {}; activeProfile = cleanName;
+    data = normalizeData(data); saveData(); render();
 }
 
 function deleteProfile() {
     const name = getActiveProfile();
-    if (Object.keys(data.profiles).length <= 1) {
-        alert("You cannot delete the last remaining profile.");
-        return;
-    }
-
+    if (Object.keys(data.profiles).length <= 1) { alert("You cannot delete the last remaining profile."); return; }
     if (!confirm(`Delete profile "${name}"?`)) return;
-
-    delete data.profiles[name];
-    activeProfile = Object.keys(data.profiles)[0];
-
-    saveData();
-    render();
+    delete data.profiles[name]; activeProfile = Object.keys(data.profiles)[0];
+    saveData(); render();
 }
 
-/* ================= MOXFIELD IMPORT / EXPORT ENGINE ================= */
-
 function exportCollection() {
-    const profile = getActiveProfile();
-    const outputDeck = [];
-
+    const profile = getActiveProfile(); const outputDeck = [];
     CONFIG_CATEGORIES.forEach(cat => {
         Object.keys(data.sprites[cat]).forEach(sprite => {
             const unlockedMap = data.profiles[profile][cat][sprite];
-            
             Object.keys(unlockedMap).forEach(variant => {
                 if (unlockedMap[variant] === true) {
-                    if (variant.toLowerCase() === "normal") {
-                        outputDeck.push(sprite);
-                    } else {
-                        outputDeck.push(`${sprite} (${variant})`);
-                    }
+                    outputDeck.push(variant.toLowerCase() === "normal" ? sprite : `${sprite} (${variant})`);
                 }
             });
         });
     });
 
-    if (outputDeck.length === 0) {
-        alert(`No unlocked sprites found in ${profile}'s profile to export.`);
-        return;
-    }
-
+    if (outputDeck.length === 0) { alert(`No unlocked sprites found in ${profile}'s profile.`); return; }
     const deckString = outputDeck.join("\n");
-
-    // Attempt to silently write to clipboard
     navigator.clipboard.writeText(deckString).then(() => {
-        alert(`Successfully copied ${outputDeck.length} unlocked styles to your clipboard!\n\nPaste this anywhere to share or back up.`);
-    }).catch(() => {
-        // Fallback for older browsers or strict security settings
-        prompt("Copy your collection list below:", deckString);
-    });
+        alert(`Successfully copied ${outputDeck.length} unlocked styles to your clipboard!`);
+    }).catch(() => prompt("Copy your collection list below:", deckString));
 }
 
 function importCollection() {
     const profile = getActiveProfile();
-    const rawInput = prompt(
-        `Paste a Moxfield-style collection list to merge into [ ${profile} ]:\n\n(Example format)\nWater\nFire (galaxy)\nDuck (gold)`
-    );
-
+    const rawInput = prompt(`Paste a Moxfield-style collection list to merge into [ ${profile} ]:`);
     if (!rawInput || !rawInput.trim()) return;
 
-    const lines = rawInput.split(/\r?\n/);
-    let successfullyUnlocked = 0;
-    const pendingUnlocks = [];
-
+    const lines = rawInput.split(/\r?\n/); let successfullyUnlocked = 0; const pendingUnlocks = [];
     lines.forEach(rawLine => {
-        const line = rawLine.trim();
-        if (!line) return;
-
-        let targetSprite = line;
-        let targetVariant = "normal";
-
-        // Regex: Grabs everything before the final set of parentheses as the Sprite Name,
-        // and whatever is inside the final parentheses as the variant style.
+        const line = rawLine.trim(); if (!line) return;
+        let targetSprite = line; let targetVariant = "normal";
         const match = line.match(/^(.*?)(?:\s*\((.*?)\))?$/);
-        if (match) {
-            targetSprite = match[1].trim();
-            if (match[2]) targetVariant = match[2].trim().toLowerCase();
-        }
+        if (match) { targetSprite = match[1].trim(); if (match[2]) targetVariant = match[2].trim().toLowerCase(); }
 
-        // 1. Scan the master catalog to see what category this sprite lives in
-        let registeredCategory = null;
-        let exactCasedSpriteName = targetSprite;
-
+        let registeredCategory = null; let exactCasedSpriteName = targetSprite;
         for (const cat of CONFIG_CATEGORIES) {
-            const catalogSprites = Object.keys(data.sprites[cat]);
-            const matched = catalogSprites.find(s => s.toLowerCase() === targetSprite.toLowerCase());
-            if (matched) {
-                registeredCategory = cat;
-                exactCasedSpriteName = matched;
-                break;
-            }
+            const matched = Object.keys(data.sprites[cat]).find(s => s.toLowerCase() === targetSprite.toLowerCase());
+            if (matched) { registeredCategory = cat; exactCasedSpriteName = matched; break; }
         }
 
-        // 2. If it's an entirely foreign sprite, inject it into the "Others" category
         if (!registeredCategory) {
             registeredCategory = "Others";
-            if (!data.sprites["Others"][exactCasedSpriteName]) {
-                data.sprites["Others"][exactCasedSpriteName] = [];
-            }
+            if (!data.sprites["Others"][exactCasedSpriteName]) data.sprites["Others"][exactCasedSpriteName] = [];
         }
 
-        // 3. Ensure the target variant exists on the master sprite definition
         const existingVariants = data.sprites[registeredCategory][exactCasedSpriteName].map(v => v.toLowerCase());
-        if (!existingVariants.includes(targetVariant)) {
-            data.sprites[registeredCategory][exactCasedSpriteName].push(targetVariant);
-        }
+        if (!existingVariants.includes(targetVariant)) data.sprites[registeredCategory][exactCasedSpriteName].push(targetVariant);
 
-        pendingUnlocks.push({
-            cat: registeredCategory,
-            sprite: exactCasedSpriteName,
-            variant: targetVariant
-        });
+        pendingUnlocks.push({ cat: registeredCategory, sprite: exactCasedSpriteName, variant: targetVariant });
     });
 
-    // Run the normalizer ONCE to instantly build the missing data nodes for all profiles
     data = normalizeData(data);
-
-    // Now safely checkmark the items
     pendingUnlocks.forEach(item => {
-        // Resolve the true case-sensitive variant string registered in the app
         const trueVariantKey = data.sprites[item.cat][item.sprite].find(v => v.toLowerCase() === item.variant);
-        
-        if (trueVariantKey) {
-            // Only count it if it wasn't already checked
-            if (data.profiles[profile][item.cat][item.sprite][trueVariantKey] !== true) {
-                data.profiles[profile][item.cat][item.sprite][trueVariantKey] = true;
-                successfullyUnlocked++;
-            }
+        if (trueVariantKey && data.profiles[profile][item.cat][item.sprite][trueVariantKey] !== true) {
+            data.profiles[profile][item.cat][item.sprite][trueVariantKey] = true;
+            successfullyUnlocked++;
         }
     });
 
-    saveData();
-    render();
-    alert(`Import finished! Successfully merged and unlocked ${successfullyUnlocked} new styles for ${profile}.`);
+    saveData(); render();
+    alert(`Import finished! Successfully unlocked ${successfullyUnlocked} new styles for ${profile}.`);
 }
 </script>
 
