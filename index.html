@@ -130,6 +130,11 @@ h1 {
 .button-group {
     display: flex;
     gap: 10px;
+    margin-bottom: 10px;
+}
+
+.button-group:last-child {
+    margin-bottom: 0;
 }
 
 button {
@@ -146,6 +151,9 @@ button {
     box-shadow: 0 4px 12px rgba(99, 56, 240, 0.25);
     display: flex;    
     gap: 12px;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
 }
 
 button:hover {
@@ -165,6 +173,13 @@ button.danger:hover {
     background: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
     box-shadow: 0 6px 18px rgba(239, 68, 68, 0.35);
 }
+
+/* Import/Export Neon Buttons */
+button.import-btn { background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+button.import-btn:hover { background: linear-gradient(135deg, #34d399 0%, #059669 100%); box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35); }
+
+button.export-btn { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2); }
+button.export-btn:hover { background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%); box-shadow: 0 6px 18px rgba(59, 130, 246, 0.35); }
 
 #searchInput {
     font-family: 'Outfit', sans-serif;
@@ -210,7 +225,6 @@ button.danger:hover {
     overflow: hidden;
 }
 
-/* The scrolling diagonal energy texture */
 .progress-bar::after {
     content: "";
     position: absolute;
@@ -262,7 +276,6 @@ button.danger:hover {
     font-weight: 600;
 }
 
-/* Custom Interactive HUD Variant Pills */
 .variants-container {
     display: flex;
     gap: 8px;
@@ -293,7 +306,6 @@ button.danger:hover {
     color: #cbd5e1;
 }
 
-/* Hidden native checkbox */
 .variant-pill input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
@@ -306,7 +318,6 @@ button.danger:hover {
     position: relative;
 }
 
-/* The magic glow trigger when checked */
 .variant-pill:has(input[type="checkbox"]:checked) {
     background: rgba(0, 212, 255, 0.15);
     border-color: #00d4ff;
@@ -351,7 +362,7 @@ button.danger:hover {
     </div>
 
     <div class="panel">
-        <h3>Profiles</h3>
+        <h3>Profiles & Data Deck</h3>
         <div class="profile-grid" id="profileGrid"></div>
         <div class="button-group">
             <button onclick="createProfile()">+ Add Profile</button>
@@ -360,6 +371,10 @@ button.danger:hover {
         <div class="button-group">
             <button onclick="addSprite()">+ Add Sprite</button>
             <button onclick="deleteSprite()" class="danger">- Delete Sprite</button>
+        </div>
+        <div class="button-group" style="margin-top: 15px;">
+            <button onclick="importCollection()" class="import-btn">↓ Import List</button>
+            <button onclick="exportCollection()" class="export-btn">↑ Export List</button>
         </div>
     </div>
 
@@ -378,14 +393,9 @@ const CONFIG_CATEGORIES = [
     "Dream", "Demon", "Punk", "King", "Zero Point", "Others"
 ];
 
-// 1. DEFAULT CATALOG NOW EXPLICITLY DEFINES EACH SPRITE'S VARIANTS AS AN ARRAY
 const DEFAULT_CATALOG = {
-    "Water": { 
-        "Water": ["normal", "gold", "gummy", "galaxy"]
-    },
-    "Fire": { 
-        "Fire": ["normal", "gold", "gummy", "galaxy"], 
-    },
+    "Water": { "Water": ["normal", "gold", "gummy", "galaxy"] },
+    "Fire": { "Fire": ["normal", "gold", "gummy", "galaxy"] },
     "Earth": { "Earth": ["normal", "gold", "gummy", "galaxy"] },
     "Duck": { "Duck": ["normal", "gold", "gummy", "galaxy"] },
     "Ghost": { "Ghost": ["normal", "gold", "gummy", "galaxy"] },
@@ -418,19 +428,14 @@ function normalizeData(rawInput) {
     const normSprites = {};
     const sourceSprites = parsed.sprites || {};
 
-    // STEP A: Build the master Sprite Schema (Sprite -> Array of its valid variants)
     CONFIG_CATEGORIES.forEach(cat => {
         normSprites[cat] = {};
-        
         const defaultSpriteNames = Object.keys(DEFAULT_CATALOG[cat] || {});
         const savedSpriteNames = sourceSprites[cat] ? Object.keys(sourceSprites[cat]) : [];
         const combinedUniqueNames = new Set([...defaultSpriteNames, ...savedSpriteNames]);
 
         combinedUniqueNames.forEach(spriteName => {
             let varList = sourceSprites?.[cat]?.[spriteName];
-            
-            // Backwards-compatibility catch: If it sees an old v2 save file where the sprite 
-            // was an object {} instead of an array [], safely convert it to standard array
             if (!Array.isArray(varList)) {
                 varList = DEFAULT_CATALOG[cat]?.[spriteName] || ["normal", "gold", "gummy", "galaxy"];
             }
@@ -438,7 +443,6 @@ function normalizeData(rawInput) {
         });
     });
 
-    // STEP B: Align all user profiles against that master schema
     const normProfiles = {};
     let sourceProfiles = parsed.profiles;
     if (!sourceProfiles || typeof sourceProfiles !== "object" || Object.keys(sourceProfiles).length === 0) {
@@ -451,11 +455,9 @@ function normalizeData(rawInput) {
 
         CONFIG_CATEGORIES.forEach(cat => {
             normProfiles[proName][cat] = {};
-
             Object.keys(normSprites[cat]).forEach(spriteName => {
                 normProfiles[proName][cat][spriteName] = {};
                 const spriteValidVariants = normSprites[cat][spriteName];
-
                 spriteValidVariants.forEach(v => {
                     const savedBoolean = userSavedProfile?.[cat]?.[spriteName]?.[v];
                     normProfiles[proName][cat][spriteName][v] = (typeof savedBoolean === "boolean") ? savedBoolean : false;
@@ -527,7 +529,6 @@ function renderProfiles() {
             Object.keys(data.sprites[cat]).forEach(sprite => {
                 const pObj = data.profiles[name][cat][sprite];
                 const validVars = data.sprites[cat][sprite];
-
                 validVars.forEach(v => {
                     total++;
                     if (pObj[v]) done++;
@@ -611,7 +612,6 @@ function renderSprites() {
                     varContainer.appendChild(pill);
                 });
 
-                // The new "Add Style" Trigger pill
                 const addStylePill = document.createElement("div");
                 addStylePill.className = "variant-pill";
                 addStylePill.style.cssText = "border-style: dashed; opacity: 0.6; padding: 6px 10px;";
@@ -640,10 +640,7 @@ function addVariantToSpecificSprite(cat, spriteName) {
         return;
     }
 
-    // Push the new style onto this sprite's permanent record
     data.sprites[cat][spriteName].push(newStyle.trim());
-
-    // Pushing it through normalizeData() forces all 3 profiles to instantly adopt the new style set to 'false'
     data = normalizeData(data);
     saveData();
     render();
@@ -728,6 +725,128 @@ function deleteProfile() {
 
     saveData();
     render();
+}
+
+/* ================= MOXFIELD IMPORT / EXPORT ENGINE ================= */
+
+function exportCollection() {
+    const profile = getActiveProfile();
+    const outputDeck = [];
+
+    CONFIG_CATEGORIES.forEach(cat => {
+        Object.keys(data.sprites[cat]).forEach(sprite => {
+            const unlockedMap = data.profiles[profile][cat][sprite];
+            
+            Object.keys(unlockedMap).forEach(variant => {
+                if (unlockedMap[variant] === true) {
+                    if (variant.toLowerCase() === "normal") {
+                        outputDeck.push(sprite);
+                    } else {
+                        outputDeck.push(`${sprite} (${variant})`);
+                    }
+                }
+            });
+        });
+    });
+
+    if (outputDeck.length === 0) {
+        alert(`No unlocked sprites found in ${profile}'s profile to export.`);
+        return;
+    }
+
+    const deckString = outputDeck.join("\n");
+
+    // Attempt to silently write to clipboard
+    navigator.clipboard.writeText(deckString).then(() => {
+        alert(`Successfully copied ${outputDeck.length} unlocked styles to your clipboard!\n\nPaste this anywhere to share or back up.`);
+    }).catch(() => {
+        // Fallback for older browsers or strict security settings
+        prompt("Copy your collection list below:", deckString);
+    });
+}
+
+function importCollection() {
+    const profile = getActiveProfile();
+    const rawInput = prompt(
+        `Paste a Moxfield-style collection list to merge into [ ${profile} ]:\n\n(Example format)\nWater\nFire (galaxy)\nDuck (gold)`
+    );
+
+    if (!rawInput || !rawInput.trim()) return;
+
+    const lines = rawInput.split(/\r?\n/);
+    let successfullyUnlocked = 0;
+    const pendingUnlocks = [];
+
+    lines.forEach(rawLine => {
+        const line = rawLine.trim();
+        if (!line) return;
+
+        let targetSprite = line;
+        let targetVariant = "normal";
+
+        // Regex: Grabs everything before the final set of parentheses as the Sprite Name,
+        // and whatever is inside the final parentheses as the variant style.
+        const match = line.match(/^(.*?)(?:\s*\((.*?)\))?$/);
+        if (match) {
+            targetSprite = match[1].trim();
+            if (match[2]) targetVariant = match[2].trim().toLowerCase();
+        }
+
+        // 1. Scan the master catalog to see what category this sprite lives in
+        let registeredCategory = null;
+        let exactCasedSpriteName = targetSprite;
+
+        for (const cat of CONFIG_CATEGORIES) {
+            const catalogSprites = Object.keys(data.sprites[cat]);
+            const matched = catalogSprites.find(s => s.toLowerCase() === targetSprite.toLowerCase());
+            if (matched) {
+                registeredCategory = cat;
+                exactCasedSpriteName = matched;
+                break;
+            }
+        }
+
+        // 2. If it's an entirely foreign sprite, inject it into the "Others" category
+        if (!registeredCategory) {
+            registeredCategory = "Others";
+            if (!data.sprites["Others"][exactCasedSpriteName]) {
+                data.sprites["Others"][exactCasedSpriteName] = [];
+            }
+        }
+
+        // 3. Ensure the target variant exists on the master sprite definition
+        const existingVariants = data.sprites[registeredCategory][exactCasedSpriteName].map(v => v.toLowerCase());
+        if (!existingVariants.includes(targetVariant)) {
+            data.sprites[registeredCategory][exactCasedSpriteName].push(targetVariant);
+        }
+
+        pendingUnlocks.push({
+            cat: registeredCategory,
+            sprite: exactCasedSpriteName,
+            variant: targetVariant
+        });
+    });
+
+    // Run the normalizer ONCE to instantly build the missing data nodes for all profiles
+    data = normalizeData(data);
+
+    // Now safely checkmark the items
+    pendingUnlocks.forEach(item => {
+        // Resolve the true case-sensitive variant string registered in the app
+        const trueVariantKey = data.sprites[item.cat][item.sprite].find(v => v.toLowerCase() === item.variant);
+        
+        if (trueVariantKey) {
+            // Only count it if it wasn't already checked
+            if (data.profiles[profile][item.cat][item.sprite][trueVariantKey] !== true) {
+                data.profiles[profile][item.cat][item.sprite][trueVariantKey] = true;
+                successfullyUnlocked++;
+            }
+        }
+    });
+
+    saveData();
+    render();
+    alert(`Import finished! Successfully merged and unlocked ${successfullyUnlocked} new styles for ${profile}.`);
 }
 </script>
 
