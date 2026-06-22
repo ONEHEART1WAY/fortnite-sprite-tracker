@@ -757,45 +757,175 @@ function exportCollection() {
 
 function importCollection() {
     const profile = getActiveProfile();
-    const rawInput = prompt(`Paste a Moxfield-style collection list to merge into [ ${profile} ]:`);
-    if (!rawInput || !rawInput.trim()) return;
+    if (document.getElementById("custom-import-modal")) return;
 
-    const lines = rawInput.split(/\r?\n/); let successfullyUnlocked = 0; const pendingUnlocks = [];
-    lines.forEach(rawLine => {
-        const line = rawLine.trim(); if (!line) return;
-        let targetSprite = line; let targetVariant = "normal";
-        const match = line.match(/^(.*?)(?:\s*\((.*?)\))?$/);
-        if (match) { targetSprite = match[1].trim(); if (match[2]) targetVariant = match[2].trim().toLowerCase(); }
+    const overlay = document.createElement("div");
+    overlay.id = "custom-import-modal";
+    overlay.style.cssText = `
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+        background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);
+        display: flex; justify-content: center; align-items: center; z-index: 999999;
+        font-family: sans-serif;
+    `;
 
-        let registeredCategory = null; let exactCasedSpriteName = targetSprite;
-        for (const cat of CONFIG_CATEGORIES) {
-            const matched = Object.keys(data.sprites[cat]).find(s => s.toLowerCase() === targetSprite.toLowerCase());
-            if (matched) { registeredCategory = cat; exactCasedSpriteName = matched; break; }
+    const box = document.createElement("div");
+    box.style.cssText = `
+        background: #18181b; color: #f4f4f5; padding: 20px; border-radius: 12px;
+        width: 90%; max-width: 520px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        border: 1px solid #3f3f46; display: flex; flex-direction: column; gap: 12px;
+    `;
+
+    box.innerHTML = `
+        <h3 style="margin: 0; color: #38bdf8; font-size: 18px;">Import to [ ${profile} ]</h3>
+        <p style="margin: 0; font-size: 13px; color: #a1a1aa;">Paste your multi-line export list below.</p>
+        <textarea id="import-textarea" rows="12" style="
+            width: 100%; background: #09090b; color: #10b981; border: 1px solid #27272a; 
+            border-radius: 6px; padding: 10px; font-family: monospace; font-size: 13px;
+            resize: vertical; outline: none; box-sizing: border-box;
+        " placeholder="Paste collection list here..."></textarea>
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 4px;">
+            <button id="import-cancel-btn" style="background: #27272a; color:#f4f4f5; border:none; padding: 8px 16px; border-radius: 6px; cursor:pointer;">Cancel</button>
+            <button id="import-submit-btn" style="background: #38bdf8; color:#0f172a; font-weight:bold; border:none; padding: 8px 16px; border-radius: 6px; cursor:pointer;">Import Data</button>
+        </div>
+    `;
+
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+
+    const textarea = document.getElementById("import-textarea");
+    textarea.focus();
+
+    const closeModal = () => document.body.removeChild(overlay);
+    document.getElementById("import-cancel-btn").onclick = closeModal;
+
+    document.getElementById("import-submit-btn").onclick = () => {
+        const rawInput = textarea.value;
+        closeModal();
+
+        if (!rawInput || !rawInput.trim()) return;
+        const cleanInput = rawInput.trim();
+
+        if (cleanInput.startsWith("{") && cleanInput.endsWith("}")) {
+            try {
+                const testJson = JSON.parse(cleanInput);
+                if (testJson.sprites || testJson.profiles) {
+                    data = normalizeData(testJson); saveData(); render();
+                    alert("Database backup restored!"); return;
+                }
+            } catch(e) {}
         }
 
-        if (!registeredCategory) {
-            registeredCategory = "Others";
-            if (!data.sprites["Others"][exactCasedSpriteName]) data.sprites["Others"][exactCasedSpriteName] = [];
+        // --- SILENT AUTO-SCRUBBER: Heals the 'candy' mistake from the last import ---
+        for (const cat in data.sprites) {
+            for (const sp in data.sprites[cat]) {
+                data.sprites[cat][sp] = data.sprites[cat][sp].map(v => v.toLowerCase() === "candy" ? "gummy" : v);
+                data.sprites[cat][sp] = [...new Set(data.sprites[cat][sp])]; // removes duplicates
+            }
+        }
+        for (const prf in data.profiles) {
+            for (const cat in data.profiles[prf]) {
+                for (const sp in data.profiles[prf][cat]) {
+                    const spObj = data.profiles[prf][cat][sp];
+                    const rogueCandy = Object.keys(spObj).find(k => k.toLowerCase() === "candy");
+                    if (rogueCandy) {
+                        spObj["gummy"] = spObj[rogueCandy];
+                        delete spObj[rogueCandy];
+                    }
+                }
+            }
+        }
+        // ---------------------------------------------------------------------------
+
+        const lines = cleanInput.split(/\r?\n/);
+        let successfullyUnlocked = 0;
+        let lastIdentifiedSprite = null;
+
+        const lookupSprite = (testWord) => {
+            if (!testWord) return null;
+            const clean = testWord.trim().toLowerCase();
+            for (const cat of CONFIG_CATEGORIES) {
+                const match = Object.keys(data.sprites[cat]).find(s => s.toLowerCase() === clean);
+                if (match) return { category: cat, exactName: match };
+            }
+            return null;
+        };
+
+        const commonStyles = ["normal", "default", "gold", "candy", "gummy", "galaxy", "unvault"];
+
+        lines.forEach(rawLine => {
+            let text = rawLine.replace(/^[\-\*\•\>\✓\✔]\s*/, '').trim();
+            if (!text) return;
+
+            let targetSprite = null;
+            let targetVariant = null;
+
+            const parts = text.split(/[\(\)\-\:\[\]\/]/).map(p => p.trim()).filter(Boolean);
+
+            if (parts.length >= 2) {
+                const partA = lookupSprite(parts[0]);
+                const partB = lookupSprite(parts[1]);
+
+                if (partA) { targetSprite = partA.exactName; targetVariant = parts[1].toLowerCase(); } 
+                else if (partB) { targetSprite = partB.exactName; targetVariant = parts[0].toLowerCase(); } 
+                else { targetSprite = parts[0]; targetVariant = parts[1].toLowerCase(); }
+            } else {
+                const check = lookupSprite(text);
+                const cleanText = text.toLowerCase();
+
+                if (check) { targetSprite = check.exactName; targetVariant = "normal"; } 
+                else if (lastIdentifiedSprite && commonStyles.some(s => cleanText.includes(s))) {
+                    targetSprite = lastIdentifiedSprite; targetVariant = cleanText;
+                } else { targetSprite = text; targetVariant = "normal"; }
+            }
+
+            if (!targetSprite) return;
+            lastIdentifiedSprite = targetSprite;
+
+            const catInfo = lookupSprite(targetSprite);
+            const catName = catInfo ? catInfo.category : "Others";
+            const finalSpriteName = catInfo ? catInfo.exactName : targetSprite;
+
+            if (!data.sprites[catName][finalSpriteName]) data.sprites[catName][finalSpriteName] = ["normal"];
+
+            // THE INVERTED BRIDGE: Now forces incoming 'candy' to become 'gummy'
+            if (targetVariant === "candy") targetVariant = "gummy";
+            if (targetVariant === "default") targetVariant = "normal";
+
+            const registeredVars = data.sprites[catName][finalSpriteName].map(v => v.toLowerCase());
+            if (!registeredVars.includes(targetVariant)) data.sprites[catName][finalSpriteName].push(targetVariant);
+
+            const exactVariant = data.sprites[catName][finalSpriteName].find(v => v.toLowerCase() === targetVariant) || targetVariant;
+
+            if (!data.profiles[profile][catName]) data.profiles[profile][catName] = {};
+            if (!data.profiles[profile][catName][finalSpriteName]) data.profiles[profile][catName][finalSpriteName] = {};
+
+            if (data.profiles[profile][catName][finalSpriteName][exactVariant] !== true) {
+                data.profiles[profile][catName][finalSpriteName][exactVariant] = true;
+                successfullyUnlocked++;
+            }
+        });
+
+        let totalVariants = 0;
+        for (const cat in data.sprites) {
+            for (const sprite in data.sprites[cat]) {
+                totalVariants += data.sprites[cat][sprite].length;
+            }
         }
 
-        const existingVariants = data.sprites[registeredCategory][exactCasedSpriteName].map(v => v.toLowerCase());
-        if (!existingVariants.includes(targetVariant)) data.sprites[registeredCategory][exactCasedSpriteName].push(targetVariant);
-
-        pendingUnlocks.push({ cat: registeredCategory, sprite: exactCasedSpriteName, variant: targetVariant });
-    });
-
-    data = normalizeData(data);
-    pendingUnlocks.forEach(item => {
-        const trueVariantKey = data.sprites[item.cat][item.sprite].find(v => v.toLowerCase() === item.variant);
-        if (trueVariantKey && data.profiles[profile][item.cat][item.sprite][trueVariantKey] !== true) {
-            data.profiles[profile][item.cat][item.sprite][trueVariantKey] = true;
-            successfullyUnlocked++;
+        let unlockedVariants = 0;
+        const currentProfile = data.profiles[profile];
+        for (const cat in currentProfile) {
+            for (const sprite in currentProfile[cat]) {
+                unlockedVariants += Object.values(currentProfile[cat][sprite]).filter(v => v === true).length;
+            }
         }
-    });
 
-    saveData(); render();
-    alert(`Import finished! Successfully unlocked ${successfullyUnlocked} new styles for ${profile}.`);
+        const percent = totalVariants > 0 ? Math.round((unlockedVariants / totalVariants) * 100) : 0;
+
+        alert(`Successfully imported! You are ${percent}% of the way complete!`);
+    };
 }
+
 </script>
 
 </body>
