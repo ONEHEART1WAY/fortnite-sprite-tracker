@@ -321,6 +321,7 @@ button.export-btn:hover { background: linear-gradient(135deg, #60a5fa 0%, #2563e
             <button onclick="importCollection()" class="import-btn">↓ Import List</button>
             <button onclick="exportCollection()" class="export-btn">↑ Export List</button>
         </div>
+	<button onclick="showMissingItems()">Show Missing Items</button>
     </div>
 
     <div class="progress-container">
@@ -924,6 +925,49 @@ function importCollection() {
 
         alert(`Successfully imported! You are ${percent}% of the way complete!`);
     };
+}
+
+function showMissingItems() {
+    const profile = getActiveProfile();
+    let missingReport = `--- MISSING ITEMS FOR [ ${profile} ] ---\n\n`;
+    let totalMissing = 0;
+
+    for (const cat of CONFIG_CATEGORIES) {
+        const spritesInCategory = data.sprites[cat] || {};
+        const profileData = data.profiles[profile][cat] || {};
+        
+        let catMissing = [];
+
+        for (const spriteName in spritesInCategory) {
+            const allVariants = spritesInCategory[spriteName];
+            const unlockedVariants = profileData[spriteName] || {};
+
+            for (const variant of allVariants) {
+                if (unlockedVariants[variant] !== true) {
+                    catMissing.push(`${spriteName} (${variant})`);
+                    totalMissing++;
+                }
+            }
+        }
+
+        if (catMissing.length > 0) {
+            missingReport += `[ ${cat.toUpperCase()} ]\n` + catMissing.join('\n') + `\n\n`;
+        }
+    }
+
+    if (totalMissing === 0) {
+        alert("🎉 Congratulations! You have 100% of the collection!");
+    } else {
+        // We create a temporary textarea to let the user copy the list easily
+        const report = document.createElement("textarea");
+        report.value = missingReport;
+        document.body.appendChild(report);
+        report.select();
+        document.execCommand("copy");
+        document.body.removeChild(report);
+        
+        alert(`Copied ${totalMissing} missing items to your clipboard!\n\n(See the list below or paste it into a notepad)\n\n` + missingReport.substring(0, 300) + "...");
+    }
 }
 
 </script>
